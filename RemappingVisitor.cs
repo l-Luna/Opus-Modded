@@ -18,7 +18,7 @@ namespace Modded_Opus {
 				// Get the corresponding parameter name
 				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(method.Name, identifier.Name);
 				if(IdentifierCollectingVisitor.paramIntermediary.ContainsKey(param)){
-					identifier.ReplaceWith(Identifier.Create(IdentifierCollectingVisitor.paramIntermediary[param]));
+					identifier.ReplaceWith(Identifier.Create(getMappedOrIntermediary(IdentifierCollectingVisitor.paramIntermediary[param])));
 					return;
 				}
 			}
