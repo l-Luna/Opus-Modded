@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 
 namespace Modded_Opus {
-	class ClassCollectingVisitor : DepthFirstAstVisitor {
+	class IdentifierCollectingVisitor : DepthFirstAstVisitor {
 
 		// on every class and member declaration,
 		// add a dictionary entry from it to some intermediary name
 
-		public static Dictionary<string, string> mappings = new Dictionary<string, string>();
-		public static Dictionary<KeyValuePair<string, string>, string> paramMappings = new Dictionary<KeyValuePair<string, string>, string>();
+		public static Dictionary<string, string> intermediary = new Dictionary<string, string>();
+		public static Dictionary<KeyValuePair<string, string>, string> paramIntermediary = new Dictionary<KeyValuePair<string, string>, string>();
 		static int classIndex = 0, methodIndex = 0, fieldIndex = 0, parameterIndex = 0;
 
 		public override void VisitTypeDeclaration(TypeDeclaration typeDeclaration){
 			string className = "class_" + classIndex;
 			try{
-				mappings.Add(typeDeclaration.Name, className);
+				intermediary.Add(typeDeclaration.Name, className);
 				classIndex++;
 			}catch(ArgumentException){
 				// There's a lot of "<>c"s, presumably for Serialization. These can have duplicate names.
@@ -27,7 +27,7 @@ namespace Modded_Opus {
 					// Names are stored in the Variables
 					foreach(VariableInitializer variable in field.Variables){
 						try{
-							mappings.Add(variable.Name, "field_" + fieldIndex);
+							intermediary.Add(variable.Name, "field_" + fieldIndex);
 							fieldIndex++;
 						}catch(ArgumentException){
 							// I assume(tm) that duplicate field names mean duplicate original names.
@@ -37,7 +37,7 @@ namespace Modded_Opus {
 				if(member is MethodDeclaration){
 					// Name works fine here though - don't know what's up with that.
 					try{
-						mappings.Add(member.Name, "method_" + methodIndex);
+						intermediary.Add(member.Name, "method_" + methodIndex);
 						methodIndex++;
 					}catch(ArgumentException){
 						// Not a problem if we have duplicate method names:
@@ -56,7 +56,7 @@ namespace Modded_Opus {
 				try{
 					// Use intermediary method name, if possible
 					// Operators don't get intermediary...????
-					paramMappings.Add(KeyValuePair.Create(mappings.ContainsKey(declaration.Name) ? mappings[declaration.Name] : declaration.Name, parameterDeclaration.Name), "parameter_" + parameterIndex);
+					paramIntermediary.Add(KeyValuePair.Create(intermediary.ContainsKey(declaration.Name) ? intermediary[declaration.Name] : declaration.Name, parameterDeclaration.Name), "parameter_" + parameterIndex);
 					parameterIndex++;
 				}catch(ArgumentException){
 					// This means that methods with the same name have a parameter of the same name
@@ -68,7 +68,7 @@ namespace Modded_Opus {
 			// Or an anonymous method
 			else {
 				try{
-					mappings.Add(parameterDeclaration.Name, "parameter_" + parameterIndex);
+					intermediary.Add(parameterDeclaration.Name, "parameter_" + parameterIndex);
 					parameterIndex++;
 				}catch(ArgumentException){
 					// Non-unique names, but duplicate names are probably duplicate in the original source so idc

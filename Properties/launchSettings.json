@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Modded Opus": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\ezz\\opus modded\\Lightning.exe\""
-    }
-  }
-}
