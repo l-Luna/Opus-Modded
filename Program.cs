@@ -16,6 +16,7 @@ namespace Modded_Opus {
 			// args[1] is path to mappings CSV
 			string mappingsLoc = args[1];
 
+			Console.WriteLine("Reading mappings...");
 			// for every line that doesn't start with a "#", split by "," and add to mappings
 			string[] mappingsFile = File.ReadAllLines(mappingsLoc);
 			foreach(var line in mappingsFile){
@@ -27,14 +28,22 @@ namespace Modded_Opus {
 
 			var module = new PEFile(exe);
 			var decompiler = new CSharpDecompiler(exe, new UniversalAssemblyResolver(exe, false, module.DetectTargetFrameworkId()), new DecompilerSettings());
-			// now to remap and output to files
+			// decompile
+			Console.WriteLine("Decompiling...");
 			var ast = decompiler.DecompileWholeModuleAsSingleFile();
+
 			// we now have a syntax tree
 			// we just need to walk it, modify class and member name references, and then output to files
+			Console.WriteLine("Collecting intermediary names...");
 			ast.AcceptVisitor(new IdentifierCollectingVisitor());
+
+			Console.WriteLine("Remapping...");
 			ast.AcceptVisitor(new RemappingVisitor());
+
+			//Console.WriteLine("Adding modded entry point...");
 			//ast.AcceptVisitor(new EntrypointAddingVisitor());
 
+			Console.WriteLine("Writing output...");
 			using StreamWriter intermediaryFile = new StreamWriter("./intermediary.txt");
 			foreach(KeyValuePair<string, string> kv in IdentifierCollectingVisitor.intermediary) {
 				intermediaryFile.WriteLine(kv.Key + " -> " + kv.Value);

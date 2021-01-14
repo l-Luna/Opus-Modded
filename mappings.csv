@@ -103,10 +103,65 @@ class_786,LineFields
 class_787,Win32
 class_788,WorkshopManager
 
-# New
+# New Classes
 class_433,OS
 class_439,Statistic
 class_661,SdlKey
 class_720,Movement
 class_3,PuzzleFlags
 class_167,SimState
+class_125,InstructionTypes
+
+# Instruction Types
+field_1028,Wait
+field_1031,MovePositiveTrack
+field_1032,MoveNegativeTrack
+field_1033,TurnRight
+field_1034,TurnLeft
+field_1035,Extend
+field_1036,Retract
+field_1037,SpinRight
+field_1038,SpinLeft
+field_1039,Grab
+field_1040,Drop
+field_1041,Return
+field_1042,Repeat
+field_1043,Instructions
+method_183,InitTypes
+
+field_2498,Hotkey
+field_2503,RequiredFlag
+field_2496,Name
+field_2497,Description
+
+# Canon Colors
+field_2301,G
+field_2302,B
+field_2303,A
+field_2304,White
+field_2305,Black
+field_2306,VeryLightGray
+field_2307,LightGray
+field_2308,MediumGray
+field_2309,DarkGray
+field_2310,Transparent
+field_2311,Red
+field_2312,Green
+field_2313,Blue
+field_2314,Yellow
+field_2315,Purple
+field_2316,Teal
+method_831,WithAlpha
+method_832,FromHex
+method_833,Gray
+method_834,Packed
+
+# New Colors
+field_999,Ivory
+field_1000,DarkRed
+field_1001,FullRed
+field_1002,BlackRed
+
+# New Atom stuff
+field_2225,Type
+method_797,NewOfType
