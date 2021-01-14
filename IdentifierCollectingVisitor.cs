@@ -11,7 +11,7 @@ namespace Modded_Opus {
 
 		public static Dictionary<string, string> intermediary = new Dictionary<string, string>();
 		public static Dictionary<KeyValuePair<string, string>, string> paramIntermediary = new Dictionary<KeyValuePair<string, string>, string>();
-		static int classIndex = 0, methodIndex = 0, fieldIndex = 0, parameterIndex = 0;
+		static int classIndex = 0, methodIndex = 0, fieldIndex = 0, parameterIndex = 0, genericIndex = 0;
 
 		public override void VisitTypeDeclaration(TypeDeclaration typeDeclaration){
 			string className = "class_" + classIndex;
@@ -49,10 +49,10 @@ namespace Modded_Opus {
 			base.VisitTypeDeclaration(typeDeclaration);
 		}
 
-		public override void VisitParameterDeclaration(ParameterDeclaration parameterDeclaration) {
+		public override void VisitParameterDeclaration(ParameterDeclaration parameterDeclaration){
 			// Parameters do actually have distinct duplicates
 			// Parent will be an entity (method or ctor) decleration, get the name from there
-			if(parameterDeclaration.Parent is EntityDeclaration declaration) {
+			if(parameterDeclaration.Parent is EntityDeclaration declaration){
 				try{
 					// Use intermediary method name, if possible
 					// Operators don't get intermediary...????
@@ -66,7 +66,7 @@ namespace Modded_Opus {
 				}
 			}
 			// Or an anonymous method
-			else {
+			else{
 				try{
 					intermediary.Add(parameterDeclaration.Name, "parameter_" + parameterIndex);
 					parameterIndex++;
@@ -74,6 +74,14 @@ namespace Modded_Opus {
 					// Non-unique names, but duplicate names are probably duplicate in the original source so idc
 				}
 			}
+		}
+
+		public override void VisitTypeParameterDeclaration(TypeParameterDeclaration declaration){
+			base.VisitTypeParameterDeclaration(declaration);
+			try{
+				intermediary.Add(declaration.Name, "generic_" + genericIndex);
+				genericIndex++;
+			}catch(ArgumentException){}
 		}
 	}
 }

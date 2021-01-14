@@ -19,7 +19,7 @@ namespace Modded_Opus {
 			// for every line that doesn't start with a "#", split by "," and add to mappings
 			string[] mappingsFile = File.ReadAllLines(mappingsLoc);
 			foreach(var line in mappingsFile){
-				if(!line.StartsWith("#")){
+				if(!line.StartsWith("#") && !line.Trim().Equals("")){
 					string[] split = line.Split(",", 2);
 					mappings.Add(split[0], split[1]);
 				}

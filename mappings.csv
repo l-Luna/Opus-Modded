@@ -102,3 +102,11 @@ class_782,VignetteEvent
 class_786,LineFields
 class_787,Win32
 class_788,WorkshopManager
+
+# New
+class_433,OS
+class_439,Statistic
+class_661,SdlKey
+class_720,Movement
+class_3,PuzzleFlags
+class_167,SimState
