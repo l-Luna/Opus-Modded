@@ -21,7 +21,7 @@ namespace Modded_Opus {
 			ast.AcceptVisitor(new ClassRemappingVisitor());
 			//ast.AcceptVisitor(new EntrypointAddingVisitor());
 
-			using StreamWriter mappingsFile = new StreamWriter("./generated.txt");
+			using StreamWriter mappingsFile = new StreamWriter("./intermediary.txt");
 			foreach(KeyValuePair<string, string> kv in ClassCollectingVisitor.mappings) {
 				mappingsFile.WriteLine(kv.Key + " -> " + kv.Value);
 			}
@@ -30,10 +30,10 @@ namespace Modded_Opus {
 			}
 
 			string code = ast.ToString();
-			using StreamWriter outputFile = new StreamWriter("./whatever.txt");
+			using StreamWriter outputFile = new StreamWriter("./decomp.txt");
 			outputFile.WriteLine(code);
 
-			Console.WriteLine("Done! See generated.txt for generated mappings, whatever.txt for source (as a single file).");
+			Console.WriteLine("Done! See intermediary.txt for generated mappings, decomp.txt for source.");
 		}
 	}
 }
