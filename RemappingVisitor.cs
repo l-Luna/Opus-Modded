@@ -9,10 +9,6 @@ namespace Modded_Opus {
 		// on every class or member reference, use IdentifierCollectingVisitor's table to either add the correct mapping, or use intermediary
 
 		public override void VisitIdentifier(Identifier identifier){
-			if(IdentifierCollectingVisitor.intermediary.ContainsKey(identifier.Name)){
-				identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(identifier.Name)));
-				return;
-			}
 			// If I'm in any methods, replace references to parameters
 			foreach(EntityDeclaration method in identifier.Ancestors.OfType<MethodDeclaration>().Union<EntityDeclaration>(identifier.Ancestors.OfType<ConstructorDeclaration>())){
 				// Get the corresponding parameter name
@@ -22,6 +18,7 @@ namespace Modded_Opus {
 					return;
 				}
 			}
+			identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(identifier.Name)));
 		}
 
 		private string GetMappedOrIntermediary(string nonsense){
@@ -29,6 +26,12 @@ namespace Modded_Opus {
 				nonsense = IdentifierCollectingVisitor.intermediary[nonsense];
 			if(Program.mappings.ContainsKey(nonsense))
 				return Program.mappings[nonsense];
+			// if we've got something that starts with "#=", i.e. nonsense still, we'll remap that to "p" + the hash of the nonsense
+			// this should effectively only touch locals
+			// and is just for getting this to compile
+			// in the future a better solution can be made
+			if(nonsense.StartsWith("#="))
+				return ("p" + nonsense.GetHashCode()).Replace("-", "m");
 			return nonsense;
 		}
 
