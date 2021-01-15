@@ -10,21 +10,21 @@ namespace Modded_Opus {
 
 		public override void VisitIdentifier(Identifier identifier){
 			if(IdentifierCollectingVisitor.intermediary.ContainsKey(identifier.Name)){
-				identifier.ReplaceWith(Identifier.Create(getMappedOrIntermediary(identifier.Name)));
+				identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(identifier.Name)));
 				return;
 			}
 			// If I'm in any methods, replace references to parameters
 			foreach(EntityDeclaration method in identifier.Ancestors.OfType<MethodDeclaration>().Union<EntityDeclaration>(identifier.Ancestors.OfType<ConstructorDeclaration>())){
 				// Get the corresponding parameter name
-				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(intermediaryWhenMapped(method.Name), identifier.Name);
+				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(IntermediaryWhenMapped(method.Name), identifier.Name);
 				if(IdentifierCollectingVisitor.paramIntermediary.ContainsKey(param)){
-					identifier.ReplaceWith(Identifier.Create(getMappedOrIntermediary(IdentifierCollectingVisitor.paramIntermediary[param])));
+					identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(IdentifierCollectingVisitor.paramIntermediary[param])));
 					return;
 				}
 			}
 		}
 
-		private string getMappedOrIntermediary(string nonsense){
+		private string GetMappedOrIntermediary(string nonsense){
 			if(IdentifierCollectingVisitor.intermediary.ContainsKey(nonsense))
 				nonsense = IdentifierCollectingVisitor.intermediary[nonsense];
 			if(Program.mappings.ContainsKey(nonsense))
@@ -32,7 +32,7 @@ namespace Modded_Opus {
 			return nonsense;
 		}
 
-		private string intermediaryWhenMapped(string name){
+		private string IntermediaryWhenMapped(string name){
 			var result = Program.mappings.FirstOrDefault(x => x.Value == name);
 			if(!result.Equals(new KeyValuePair<string, string>()))
 				return result.Key;
