@@ -103,6 +103,18 @@ class_786,LineFields
 class_787,Win32
 class_788,WorkshopManager
 
+# Canon Methods
+method_798,WithCorners
+method_799,WithSize
+method_800,CenteredOn
+method_801,Expanded
+method_802,UnionedWith
+method_803,IntersectedWith
+method_804,Contains
+method_805,Overlaps
+method_806,Translated
+method_807,GetEdgePosition
+
 # New Classes
 class_433,OS
 class_439,Statistic
@@ -111,6 +123,28 @@ class_720,Movement
 class_3,PuzzleFlags
 class_167,SimState
 class_125,InstructionTypes
+
+# Main
+class_6,GameLoop
+method_10,Main
+parameter_17,args
+field_42,mutex
+method_927,Setup
+method_942,Render
+method_923,GetScreen
+field_2407,Screens
+
+class_175,GenericException
+
+# Stack
+class_159,Stack
+generic_8,T
+field_1154,Items
+method_281,Size
+method_282,Push
+parameter_608,Item
+method_283,Pop
+method_284,Peek
 
 # Instruction Types
 field_1028,Wait

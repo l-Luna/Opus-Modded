@@ -16,7 +16,7 @@ namespace Modded_Opus {
 			// If I'm in any methods, replace references to parameters
 			foreach(EntityDeclaration method in identifier.Ancestors.OfType<MethodDeclaration>().Union<EntityDeclaration>(identifier.Ancestors.OfType<ConstructorDeclaration>())){
 				// Get the corresponding parameter name
-				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(method.Name, identifier.Name);
+				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(intermediaryWhenMapped(method.Name), identifier.Name);
 				if(IdentifierCollectingVisitor.paramIntermediary.ContainsKey(param)){
 					identifier.ReplaceWith(Identifier.Create(getMappedOrIntermediary(IdentifierCollectingVisitor.paramIntermediary[param])));
 					return;
@@ -30,6 +30,13 @@ namespace Modded_Opus {
 			if(Program.mappings.ContainsKey(nonsense))
 				return Program.mappings[nonsense];
 			return nonsense;
+		}
+
+		private string intermediaryWhenMapped(string name){
+			var result = Program.mappings.FirstOrDefault(x => x.Value == name);
+			if(!result.Equals(new KeyValuePair<string, string>()))
+				return result.Key;
+			else return name;
 		}
 	}
 }
