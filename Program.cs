@@ -28,6 +28,7 @@ namespace Modded_Opus {
 
 			var module = new PEFile(exe);
 			var decompiler = new CSharpDecompiler(exe, new UniversalAssemblyResolver(exe, false, module.DetectTargetFrameworkId()), new DecompilerSettings());
+
 			// decompile
 			Console.WriteLine("Decompiling...");
 			var ast = decompiler.DecompileWholeModuleAsSingleFile();
@@ -39,6 +40,12 @@ namespace Modded_Opus {
 
 			Console.WriteLine("Remapping...");
 			ast.AcceptVisitor(new RemappingVisitor());
+
+			Console.WriteLine("Cleaning up invalid code...");
+			ast.AcceptVisitor(new CleanupVisitor());
+
+			// some params are in the wrong place...
+			// and steamworks got a refactor? so DispatchDelegate<T> is now Callback<T>.DispatchDelegate and APIDispatchDelegate<T> is now CallResult<T>.APIDispatchDelegate
 
 			//Console.WriteLine("Adding modded entry point...");
 			//ast.AcceptVisitor(new EntrypointAddingVisitor());
@@ -53,10 +60,10 @@ namespace Modded_Opus {
 			}
 
 			string code = ast.ToString();
-			using StreamWriter outputFile = new StreamWriter("./decomp.txt");
+			using StreamWriter outputFile = new StreamWriter("./decomp.cs");
 			outputFile.WriteLine(code);
 
-			Console.WriteLine("Done! See intermediary.txt for generated mappings, decomp.txt for source.");
+			Console.WriteLine("Done! See intermediary.txt for generated intermediary mappings and decomp.txt for (mostly-broken) source.");
 		}
 	}
 }
