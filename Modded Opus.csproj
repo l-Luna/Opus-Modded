@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DiffPatch" Version="2.0.0" />
     <PackageReference Include="ICSharpCode.Decompiler" Version="6.2.1.6137" />
-    <PackageReference Include="Ionic.Zip" Version="1.9.1.8" />
-    <PackageReference Include="Ionic.Zlib" Version="1.9.1.5" />
-    <PackageReference Include="Mono.Cecil" Version="0.11.3" />
-    <PackageReference Include="sdl2" Version="2.0.5" />
-    <PackageReference Include="Steamworks.NET.Standard.Windows.x64" Version="15.0.1.4" />
   </ItemGroup>
 
 </Project>

@@ -522,6 +522,8 @@ field_1056,Instructable
 field_1060,Hexes
 field_1062,Extendible
 field_1064,FixedAtoms
+field_1067,ToolbarIcon
+field_1068,ToolbarHoverIcon
 field_1071,Flags
 field_1072,Unique
 
@@ -569,6 +571,18 @@ class_479,IdComparisonHelper
 field_2205,Id
 method_780,HasId
 parameter_2684,part
+
+#Part Type For Toolbar
+field_2676,Part
+field_2677,InputOutputIndex
+field_2678,CanPlace
+method_1207,Of
+parameter_3351,part
+parameter_3352,canPlace
+method_1208,Of
+parameter_3354,part
+parameter_3355,inputOutputIndex
+parameter_3356,canPlace
 
 # PuzzleInputOutput
 field_2742,Molecule
@@ -653,6 +667,30 @@ method_642,GetCultureInfo
 # Textures
 field_114,FastForwardCursor
 field_115,ClosedHandCursor
+field_116,NormalCursor
+field_117,RunningCursor
+field_118,LoadingBackground
+field_119,LoadingHighlight
+field_120,LoadingSymbols
+
+field_563,PistonIcon
+field_564,PistonHoverIcon
+
+class_49,PistonArmTextures
+field_608,PistonArmBase
+field_609,PistonArmEnd
+field_610,PistonArmHub
+field_611,PistonArmSegment0
+field_612,PistonArmSegment1
+field_613,PistonArmSegment2
+
+field_624,CopperDiffuse
+field_625,CopperLightramp
+field_626,CopperRimlight
+field_627,CopperSymbol
+field_628,GoldLightramp
+field_629,GoldRimlight
+field_630,GoldSymbol
 
 # Canon SDL stuff
 method_1384,SDL_FOURCC

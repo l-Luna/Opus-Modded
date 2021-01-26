@@ -12,7 +12,7 @@ namespace Modded_Opus {
 			// If I'm in any methods, replace references to parameters
 			foreach(EntityDeclaration method in identifier.Ancestors.OfType<MethodDeclaration>().Union<EntityDeclaration>(identifier.Ancestors.OfType<ConstructorDeclaration>())){
 				// Get the corresponding parameter name
-				KeyValuePair<string, string> param = KeyValuePair.Create<string, string>(IntermediaryWhenMapped(method.Name), identifier.Name);
+				KeyValuePair<string, string> param = KeyValuePair.Create(IntermediaryWhenMapped(method.Name), identifier.Name);
 				if(IdentifierCollectingVisitor.paramIntermediary.ContainsKey(param)){
 					identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(IdentifierCollectingVisitor.paramIntermediary[param])));
 					return;
