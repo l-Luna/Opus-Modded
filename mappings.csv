@@ -80,11 +80,7 @@ class_734,SolitareState
 class_738,WaitingForNewGameFields
 class_739,WonLastGameField
 class_740,Solution
-class_746,SolutionEditorBase
-class_751,SolutionEditorPartsPanel
 class_756,PartsSection
-class_757,SolutionEditorProgramPanel
-class_761,SolutionEditorScreen
 class_764,SolutionManager
 class_766,SolutionNameOnDisk
 class_767,Sound
@@ -291,7 +287,6 @@ class_175,GenericException
 
 # SimState
 class_167,SimState
-method_428,CurrentSimState
 
 # GameLogic
 field_2387,Instance
@@ -649,6 +644,10 @@ method_1941,ParsePuzzleFromBytes
 parameter_4552,data
 parameter_4553,solutionName
 parameter_4554,date
+method_1946,Copy
+method_1948,SetName
+parameter_4556,name
+method_1949,Delete
 
 field_2698,Inputs
 field_2699,Outputs
@@ -689,6 +688,10 @@ parameter_3042,Other
 parameter_3007,By
 parameter_3008,Around
 parameter_3009,By
+
+class_5,IndexAndRotation
+field_40,Index
+field_41,Rotation
 
 # Localization
 field_2529,Translations
@@ -780,6 +783,36 @@ method_1819,MeasureArea
 class_500,CompiledProgramGrid
 method_839,Compile
 parameter_2827,solution
+
+# Solution Editor
+class_746,SolutionEditorBase
+method_427,CurrentSolution
+method_428,CurrentSimState
+method_443,DisplayError
+
+class_761,SolutionEditorScreen
+field_3719,PartPanel
+field_3721,ProgramPanel
+field_3740,RunningSim
+field_3741,CurSimState
+parameter_4783,solution
+method_2081,Unfocused
+method_2083,PlaySim
+parameter_4798,force
+method_2084,StepCycle
+method_2086,StopSim
+method_2087,CompleteSolution
+method_2088,ThrowInvalidTransition
+method_2091,KeyName
+method_2098,DraggedParts
+method_2111,GetCycles
+method_2113,GetProgram
+method_2114,GetPartHandle
+parameter_4818,solution
+parameter_4819,part
+
+class_751,SolutionEditorPartsPanel
+class_757,SolutionEditorProgramPanel
 
 # Canon SDL stuff
 method_1384,SDL_FOURCC
