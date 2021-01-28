@@ -21,7 +21,7 @@ namespace Modded_Opus {
 			identifier.ReplaceWith(Identifier.Create(GetMappedOrIntermediary(identifier.Name)));
 		}
 
-		private string GetMappedOrIntermediary(string nonsense){
+		public static string GetMappedOrIntermediary(string nonsense){
 			if(IdentifierCollectingVisitor.intermediary.ContainsKey(nonsense))
 				nonsense = IdentifierCollectingVisitor.intermediary[nonsense];
 			if(Program.mappings.ContainsKey(nonsense))
@@ -35,7 +35,7 @@ namespace Modded_Opus {
 			return nonsense;
 		}
 
-		private string IntermediaryWhenMapped(string name){
+		public static string IntermediaryWhenMapped(string name){
 			var result = Program.mappings.FirstOrDefault(x => x.Value == name);
 			if(!result.Equals(new KeyValuePair<string, string>()))
 				return result.Key;
