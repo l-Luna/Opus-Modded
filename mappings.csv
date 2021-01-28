@@ -13,7 +13,6 @@ class_496,ChapterUnlockEvent
 class_497,Color
 class_498,CompiledInstruction
 class_499,CompiledProgram
-class_500,CompiledProgramGrid
 class_501,ConfigFile
 class_502,ControlsScreen
 class_503,CreditsScreen
@@ -75,7 +74,6 @@ class_713,SDL_MessageBoxColorScheme
 class_714,SDL_Rect
 class_715,SDL_Surface
 class_716,SDL_version
-class_717,Sim
 class_726,SolitaireGameState
 class_728,SolitaireScreen
 class_734,SolitareState
@@ -278,7 +276,6 @@ class_439,Statistic
 class_661,SdlKey
 class_720,Movement
 class_3,PuzzleFlags
-class_167,SimState
 class_125,InstructionTypes
 class_444,Sounds
 
@@ -292,6 +289,10 @@ method_942,Render
 
 class_175,GenericException
 
+# SimState
+class_167,SimState
+method_428,CurrentSimState
+
 # GameLogic
 field_2387,Instance
 field_2392,ScreenSize
@@ -300,9 +301,10 @@ field_2410,HttpManager
 field_2411,ScoreManager
 field_2412,Files
 field_2413,WorkshopManager
+field_2414,Solutions
 field_2415,SigmarsGardenState
 field_2416,SigmarsGarden2State
-field_2420,Solutions
+field_2420,SolutionQueue
 field_2422,CurPuzzle
 method_923,GetScreen
 method_924,GetLastScreen
@@ -572,7 +574,7 @@ field_2205,Id
 method_780,HasId
 parameter_2684,part
 
-#Part Type For Toolbar
+# Part Type For Toolbar
 field_2676,Part
 field_2677,InputOutputIndex
 field_2678,CanPlace
@@ -611,19 +613,42 @@ method_674,Init
 method_2128,GetSolutions
 
 # Puzzle and Solution
-method_1939,ParsePuzzleFromString
-method_1941,ParsePuzzleFromBytes
 parameter_4514,puzzle
 parameter_4515,name
 parameter_4516,nameOnDisk
 parameter_4517,timestamp
+field_3628,Puzzle
 field_3629,Name
 field_3630,NameOnDisk
 field_3631,TimeStamp
+field_3632,Scores
+field_3636,FileExtension
+
+method_1915,GetPuzzle
 method_1916,SetPuzzle
-field_3628,Puzzle
+parameter_4518,newPuzzle
 parameter_4523,part
 parameter_4524,position
+
+method_1929,MovePart
+parameter_4533,part
+parameter_4534,from
+parameter_4535,to
+parameter_4536,rotation
+parameter_4537,feedback
+
+method_1933,GetChamberAt
+parameter_4546,position
+
+method_1937,GetAllSolutions
+
+method_1939,ParsePuzzleFromPath
+parameter_4551,path
+method_1940,ToBytes
+method_1941,ParsePuzzleFromBytes
+parameter_4552,data
+parameter_4553,solutionName
+parameter_4554,date
 
 field_2698,Inputs
 field_2699,Outputs
@@ -632,6 +657,17 @@ method_1231,Read
 parameter_3390,Name
 method_1230,Write
 parameter_3389,Name
+
+class_192,Chamber
+field_1220,Position
+field_1221,Shape
+parameter_845,x
+parameter_846,y
+parameter_847,shape
+method_362,InsideIndexes
+method_363,Translated
+
+class_202,ChamberShape
 
 method_1266,RegisterPuzzles
 method_812,SetupCampaign
@@ -691,6 +727,59 @@ field_627,CopperSymbol
 field_628,GoldLightramp
 field_629,GoldRimlight
 field_630,GoldSymbol
+
+# Sim
+class_717,Sim
+
+field_3519,ConflictingAtomMovementError
+field_3520,ConflictingMoleculeMovementError
+field_3521,AtomCollisionError
+field_3522,ArmCollisionError
+field_3523,ArmAtomCollisionError
+field_3524,AtomChamberCollisionError
+field_3525,ArmChamberCollisionError
+field_3526,NoTrackMoveError
+field_3527,NonPistonExtendError
+field_3529,InvalidMoveError
+field_3530,InvalidRetractError
+field_3531,InvalidExtendError
+field_3532,InvalidGripError
+field_3533,Editor
+field_3534,Cycles
+field_3535,ProgramGrid
+field_3536,PartStates
+field_3540,CycleOngoing
+method_1798,GetSolution
+method_1799,GetCycles
+method_1800,SetCycles
+parameter_4380,cycles
+method_1801,GetProgramGrid
+method_1802,SetProgramGrid
+parameter_4381,programGrid
+method_1803,CycleStarted
+method_1804,SetCycleStarted
+parameter_4382,cycleStarted
+
+method_1805,CreateForEditor
+parameter_4383,editor
+
+method_1807,BeginCycle
+method_1808,EndCycle
+method_1809,ResetPartStates
+method_1810,StepInstructions
+parameter_4384,phase
+method_1811,ValidInstructionForPhase
+parameter_4385,phase
+parameter_4386,instructionType
+method_1813,StepGlyphs
+parameter_4387,isStartOfCycle
+method_1816,CheckCollisions
+method_1819,MeasureArea
+
+# Program Grids
+class_500,CompiledProgramGrid
+method_839,Compile
+parameter_2827,solution
 
 # Canon SDL stuff
 method_1384,SDL_FOURCC
