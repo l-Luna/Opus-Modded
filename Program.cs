@@ -1,4 +1,5 @@
-﻿using ICSharpCode.Decompiler;
+﻿using DiffPatch;
+using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.Metadata;
 using System;
@@ -14,11 +15,11 @@ namespace Modded_Opus {
 		public static Dictionary<int, string> Strings = new Dictionary<int, string>();
 
 		static void Main(string[] args) {
-			// args[0] is path to Opus Magnum EXE
+			// args[0] is the path to Opus Magnum EXE
 			string exe = args[0];
-			// args[1] is path to mappings CSV
+			// args[1] is the path to mappings CSV
 			string mappingsLoc = args[1];
-			// if there's a third string, its out.csv
+			// if there's a third string, its the path out.csv
 			if(args.Length > 2) {
 				Console.WriteLine("Reading strings...");
 				string[] lines = File.ReadAllLines(args[2]);
@@ -91,10 +92,19 @@ namespace Modded_Opus {
 			}
 
 			string code = ast.ToString();
+
+			// if there's a fourth string, its the path to patch.diff
+			if(args.Length > 3) {
+				Console.WriteLine("Applying compilation patch...");
+				string patchFile = File.ReadAllText(args[3]);
+				var diff = DiffParserHelper.Parse(patchFile);
+				Console.WriteLine(diff.First().Chunks.First().ToString());
+				code = PatchHelper.Patch(code, diff.First().Chunks, "\n");
+			}
+
 			using StreamWriter outputFile = new StreamWriter("./decomp.cs");
 			outputFile.WriteLine(code);
 
-			//Console.WriteLine("Applying compilation patch...");
 			Console.WriteLine("Done!");
 		}
 	}
