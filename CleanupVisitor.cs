@@ -7,6 +7,20 @@ namespace Modded_Opus {
 
 		// steamworks got a refactor, so DispatchDelegate<T> is now Callback<T>.DispatchDelegate
 		// APIDispatchDelegate<T> is now CallResult<T>.APIDispatchDelegate
+		public override void VisitSimpleType(SimpleType simpleType) {
+			base.VisitSimpleType(simpleType);
+			// the types have to be mapped to DispatchDelegate and APIDispatchDelegate or it won't compile anyways
+			// just don't map anything to those
+			if(simpleType.TypeArguments.Count() == 1) {
+				// the types have to be mapped to DispatchDelegate and APIDispatchDelegate or it won't compile anyways
+				// just don't map anything to those
+				if(simpleType.Identifier.Equals("DispatchDelegate")) {
+					simpleType.ReplaceWith(new MemberType(new SimpleType("Callback", simpleType.TypeArguments.First().Clone()), "DispatchDelegate"));
+				} else if(simpleType.Identifier.Equals("APIDispatchDelegate")) {
+					simpleType.ReplaceWith(new MemberType(new SimpleType("CallResult", simpleType.TypeArguments.First().Clone()), "APIDispatchDelegate"));
+				}
+			}
+		}
 
 		// remove annotations at start of file
 
@@ -14,7 +28,7 @@ namespace Modded_Opus {
 		public override void VisitMethodDeclaration(MethodDeclaration method) {
 			base.VisitMethodDeclaration(method);
 			// the method has to be mapped to Current or it won't compile anyways
-			// just... don't map anything to Current that looks like Enumerator's current
+			// just don't map anything to Current that looks like Enumerator's current
 			if(method.Name.Equals("Current") && method.Body.Count() == 1 && method.Body.First() is ReturnStatement){
 				var prop = new PropertyDeclaration();
 				prop.ReturnType = method.ReturnType.Clone();
@@ -28,7 +42,7 @@ namespace Modded_Opus {
 			}
 		}
 
-		// "ref" should be replaced with "out"
+		// "ref" should be replaced with "out" in most places
 
 		// replace method_505 with the actual string
 		public override void VisitInvocationExpression(InvocationExpression invocation) {
