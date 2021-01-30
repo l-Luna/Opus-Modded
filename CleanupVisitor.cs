@@ -52,8 +52,6 @@ namespace Modded_Opus {
 			}
 		}
 
-		// "ref" should be replaced with "out" in most places
-
 		// replace method_505 with the actual string
 		public override void VisitInvocationExpression(InvocationExpression invocation) {
 			base.VisitInvocationExpression(invocation);
@@ -73,5 +71,8 @@ namespace Modded_Opus {
 				}
 			}
 		}
+
+		// Count sometimes misses its brackets
+		// implicit Maybe doesn't work for NormalInputMode, must be manually changed to Maybe.Of
 	}
 }
