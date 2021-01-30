@@ -24,6 +24,16 @@ namespace Modded_Opus {
 
 		// remove annotations at start of file
 
+		// classes 207-213 should be public
+		public override void VisitTypeDeclaration(TypeDeclaration typeDeclaration) {
+			base.VisitTypeDeclaration(typeDeclaration);
+			// give these unique names too
+			string id = RemappingVisitor.IntermediaryWhenMapped(typeDeclaration.Name);
+			if(id == "class_207" || id == "class_208" || id == "class_209" || id == "class_210" || id == "class_211" || id == "class_212" || id == "class_213") {
+				typeDeclaration.Modifiers = Modifiers.Public;
+			}
+		}
+
 		// Current has to be an accessor
 		public override void VisitMethodDeclaration(MethodDeclaration method) {
 			base.VisitMethodDeclaration(method);
