@@ -2,10 +2,13 @@
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.Metadata;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Modded_Opus {
@@ -82,7 +85,7 @@ namespace Modded_Opus {
 			//Console.WriteLine("Adding modded entry point...");
 			//ast.AcceptVisitor(new EntrypointAddingVisitor());
 
-			Console.WriteLine("Writing output...");
+			Console.WriteLine("Writing nonsense -> intermediary...");
 			using StreamWriter intermediaryFile = new StreamWriter("./intermediary.txt");
 			foreach(KeyValuePair<string, string> kv in IdentifierCollectingVisitor.intermediary) {
 				intermediaryFile.WriteLine(kv.Key + " -> " + kv.Value);
@@ -94,14 +97,72 @@ namespace Modded_Opus {
 			string code = ast.ToString();
 
 			// if there's a fourth string, its the path to patch.diff
+			// apply patch and compile
 			if(args.Length > 3) {
 				Console.WriteLine("Applying compilation patch...");
 				string patchFile = File.ReadAllText(args[3]);
 				var diff = DiffParserHelper.Parse(patchFile);
-				Console.WriteLine(diff.First().Chunks.First().ToString());
 				code = PatchHelper.Patch(code, diff.First().Chunks, "\n");
+
+				Console.WriteLine("Recompiling...");
+				SyntaxTree syntax = CSharpSyntaxTree.ParseText(code, new CSharpParseOptions());
+				var options = new CSharpCompilationOptions(
+					OutputKind.WindowsApplication,
+					optimizationLevel: OptimizationLevel.Release,
+					allowUnsafe: true,
+					warningLevel: 1,
+					platform: Platform.X86
+				);
+				// File/Process/Directory doesn't exist
+				var compilation = CSharpCompilation.Create("ModdedLightning", options: options)
+					.AddReferences(new MetadataReference[]{
+						// add libs
+						MetadataReference.CreateFromFile(typeof(string).Assembly.Location),
+						MetadataReference.CreateFromFile(typeof(HashSet<object>).Assembly.Location),
+						MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
+						MetadataReference.CreateFromFile(Assembly.Load("mscorlib").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Runtime.Extensions").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.IO").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.IO.FileSystem").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.IO.FileSystem.Watcher").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Net.Requests").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Diagnostics.Process").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Private.Uri").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.ComponentModel.Primitives").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("System.Console").Location),
+						MetadataReference.CreateFromFile(Assembly.Load("netstandard").Location),
+						MetadataReference.CreateFromFile(typeof(Steamworks.CSteamID).Assembly.Location),
+						MetadataReference.CreateFromFile(typeof(Ionic.Zip.ZipEntry).Assembly.Location)
+					})
+					.AddSyntaxTrees(syntax);
+				using FileStream outputAssembly = new FileStream("./ModdedLightning.exe", FileMode.Create);
+				var res = compilation.Emit(outputAssembly);
+				if(res.Success) {
+					Console.WriteLine("Successfully recompiled!");
+					Console.WriteLine("(Press any key to continue.)");
+					Console.ReadKey();
+					Console.WriteLine("Writing runtime config & running batch...");
+
+					string runtimeConfig = @"{ ""runtimeOptions"": { ""tfm"": ""netcoreapp3.1"", ""framework"": { ""name"": ""Microsoft.NETCore.App"", ""version"": ""3.1.0"" }}}";
+					using StreamWriter configFile = new StreamWriter("./ModdedLightning.runtimeconfig.json");
+					configFile.WriteLine(runtimeConfig);
+
+					string runBatch = @"""C:\Program Files (x86)\dotnet\dotnet.exe"" ModdedLightning.exe";
+					using StreamWriter batchFile = new StreamWriter("./runModded.bat");
+					batchFile.WriteLine(runBatch);
+				} else {
+					Console.WriteLine("Recompilation failed with " + res.Diagnostics.Length + " errors.");
+					foreach(var error in res.Diagnostics) {
+						Console.WriteLine("Location: " + error.Location.GetLineSpan());
+						Console.WriteLine("    " + error.GetMessage());
+						Console.WriteLine("(Press any key to continue.)");
+						Console.ReadKey();
+					}
+				}
 			}
 
+			Console.WriteLine("Writing code output...");
 			using StreamWriter outputFile = new StreamWriter("./decomp.cs");
 			outputFile.WriteLine(code);
 

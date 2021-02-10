@@ -31,7 +31,10 @@ namespace Modded_Opus {
 			// and is just for getting this to compile
 			// in the future a better solution can be made
 			if(nonsense.StartsWith("#=") || nonsense.Contains("$") || nonsense.Contains("<"))
-				return ("p" + nonsense.GetHashCode()).Replace("-", "m");
+				nonsense = ("p" + GetDeterministicHashCode(nonsense)).Replace("-", "m");
+			// might as well allow for mappings these
+			if(Program.mappings.ContainsKey(nonsense))
+				return Program.mappings[nonsense];
 			return nonsense;
 		}
 
@@ -40,6 +43,23 @@ namespace Modded_Opus {
 			if(!result.Equals(new KeyValuePair<string, string>()))
 				return result.Key;
 			else return name;
+		}
+
+		// from https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/
+		static int GetDeterministicHashCode(string str) {
+			unchecked {
+				int hash1 = (5381 << 16) + 5381;
+				int hash2 = hash1;
+
+				for(int i = 0; i < str.Length; i += 2) {
+					hash1 = ((hash1 << 5) + hash1) ^ str[i];
+					if(i == str.Length - 1)
+						break;
+					hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+				}
+
+				return hash1 + (hash2 * 1566083941);
+			}
 		}
 	}
 }

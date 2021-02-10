@@ -1,5 +1,5 @@
 diff --git a/./decomp.cs b/./decompFixed.cs
-index aa19cd0..d107a98 100644
+index 0758cfa..f5dcc37 100644
 --- a/./decomp.cs
 +++ b/./decompFixed.cs
 @@ -21,22 +21,6 @@ using Ionic.Zlib;
@@ -30,7 +30,7 @@ index aa19cd0..d107a98 100644
  			}
  			class_9.field_46.field_1965.method_395 (1f);
 -			return (Maybe<class_195>)(class_195)new NormalInputMode ();
-+			return Maybe<class_195>.Of(new NormalInputMode ());
++			return Maybe<class_195>.Of(new NormalInputMode());
  		}
  		return class_438.field_1954;
  	}
@@ -128,7 +128,7 @@ index aa19cd0..d107a98 100644
 +		return "SteamID:" + ((CSteamID)(val)).GetAccountID ();
  	}
  
- 	public static implicit operator class_187 (CSteamID p1498646661)
+ 	public static implicit operator class_187 (CSteamID p1348118742)
 @@ -10820,7 +10801,7 @@ internal sealed class class_197 : class_195
  			parameter_865.field_3730.method_338 (item2);
  		}
@@ -182,15 +182,16 @@ index aa19cd0..d107a98 100644
  		field_1899 = field_1900.Pop ();
  	}
  }
-@@ -18814,7 +18794,6 @@ public static class Localization
+@@ -18814,7 +18794,7 @@ public static class Localization
  
  	public static string method_636 (string parameter_2431, Language parameter_2432)
  	{
 -		parameter_2431 = parameter_2431.Replace ("", "");
++		//parameter_2431 = parameter_2431.Replace ("", "");
  		parameter_2431 = parameter_2431.Replace ("--", "—");
  		parameter_2431 = parameter_2431.Replace ("……", "…");
  		if (parameter_2432 == Language.Chinese) {
-@@ -19117,7 +19096,7 @@ public sealed class class_427 : class_195
+@@ -19117,7 +19097,7 @@ public sealed class class_427 : class_195
  		}
  		if (!class_418.method_623 ((class_204)1)) {
  			class_9.field_46.field_1965.method_395 (1f);
@@ -199,96 +200,25 @@ index aa19cd0..d107a98 100644
  		}
  		return class_438.field_1954;
  	}
-@@ -20252,7 +20231,7 @@ public static class class_448
+@@ -20252,7 +20232,7 @@ public static class class_448
  
  	public static readonly bool field_2041 = true;
  
 -	public static readonly bool field_2042 = true;
-+	public static readonly bool field_2042 = false;
++	public static readonly bool field_2042 = false; // No Steam support
  
  	public static readonly bool field_2043 = true;
  
-@@ -21782,6 +21761,7 @@ public static class PartTypes
- 	public static PartType Track;
- 
- 	public static PartType VanBerloWheel;
-+	public static PartType RavariWheel;
- 
- 	public static PartType Bonding;
- 
-@@ -21992,6 +21972,45 @@ public static class PartTypes
- 			Instructable = true,
- 			Flags = PuzzleFlags.BaronWheel
- 		};
-+		RavariWheel = new PartType {
-+			Id = "ravari",
-+			Name = Localization.Translate("Ravari's Wheel", string.Empty),
-+			Description = Localization.Translate("By using Ravari's wheel with the glyph of degradation, any metal can be reduced to a lower metal.", string.Empty),
-+			ToolbarIcon = class_9.field_44.field_130.field_505.field_583,
-+			ToolbarHoverIcon = class_9.field_44.field_130.field_505.field_584,
-+			Cost = 30,
-+			Unique = true,
-+			field_1052 = (class_170)1,
-+			HasArms = true,
-+			FixedAtoms = new Dictionary<HexIndex, AtomType> {
-+				{
-+					new HexIndex (-1, 0),
-+					AtomTypes.Lead
-+				},
-+				{
-+					new HexIndex (1, 0),
-+					AtomTypes.Copper
-+				},
-+				{
-+					new HexIndex (-1, 1),
-+					AtomTypes.Tin
-+				},
-+				{
-+					new HexIndex (0, 1),
-+					AtomTypes.Iron
-+				},
-+				{
-+					new HexIndex (0, -1),
-+					AtomTypes.Gold
-+				},
-+				{
-+					new HexIndex (1, -1),
-+					AtomTypes.Silver
-+				}
-+			},
-+			Instructable = true,
-+			Flags = PuzzleFlags.BaronWheel
-+		};
- 		PartType = new PartType ();
- 		PartType.Id = "bonder";
- 		PartType.Name = Localization.Translate ("Glyph of Bonding", string.Empty);
-@@ -22232,7 +22251,7 @@ public static class PartTypes
- 		};
- 		PartType.Flags = PuzzleFlags.Quintessence;
- 		Dispersial = PartType;
--		Types = new PartType[25] {
-+		Types = new PartType[26] {
- 			Reagent,
- 			Product,
- 			ProductPolymer,
-@@ -22245,6 +22264,7 @@ public static class PartTypes
- 			Gripper,
- 			Track,
- 			VanBerloWheel,
-+			RavariWheel,
- 			Bonding,
- 			Unbonding,
- 			Multibonding,
-@@ -22314,7 +22334,7 @@ internal sealed class class_481 : class_195
+@@ -22314,7 +22294,7 @@ internal sealed class class_481 : class_195
  		field_2206.method_325 ((class_158)0, field_2207, -class_418.method_621 ());
  		class_160.field_1163 = class_9.field_49.field_1800;
  		if (class_418.method_625 ((class_204)3)) {
 -			return (Maybe<class_195>)(class_195)new NormalInputMode ();
-+			return Maybe<class_195>.Of(new NormalInputMode ());
++			return Maybe<class_195>.Of(new NormalInputMode());
  		}
  		return class_438.field_1954;
  	}
-@@ -22898,7 +22918,7 @@ public sealed class CampaignItem
+@@ -22898,7 +22878,7 @@ public sealed class CampaignItem
  		case (class_147)3: {
  			int num = 0;
  			if (class_448.field_2042) {
@@ -297,17 +227,17 @@ index aa19cd0..d107a98 100644
  			}
  			return num > 0;
  		}
-@@ -25738,7 +25758,8 @@ public sealed class GameLogic
+@@ -25738,7 +25718,8 @@ public sealed class GameLogic
  		Files = new Files ();
  		WorkshopManager = new WorkshopManager ();
  		ScoreManager.InitScores ();
 -		WorkshopManager.InitWorkshop ();
 +		// No Steam support
-+		//WorkshopManager.InitWorkshop ();
++		// WorkshopManager.InitWorkshop ();
  		Solutions = SolutionManager.GetSolutions ();
  		method_931 (new class_122 ());
  		method_922 (class_110.method_123 ());
-@@ -25872,7 +25893,7 @@ public sealed class GameLogic
+@@ -25872,7 +25853,7 @@ public sealed class GameLogic
  			}
  			stack.Push (screen);
  		}
@@ -316,16 +246,16 @@ index aa19cd0..d107a98 100644
  			Screens.Push (stack.Pop ());
  		}
  	}
-@@ -26053,7 +26074,7 @@ public sealed class GameLogic
+@@ -26053,7 +26034,7 @@ public sealed class GameLogic
  				if (field_2389.TryGetValue (_event.field_3285.field_3490, out var value4) && value4.method_704 ()) {
  					string text = null;
  					byte[] array = new byte[32];
--					Marshal.Copy ((IntPtr)(&_event.field_3285.pm1378608784.field_3491), array, 0, array.Length);
-+					Marshal.Copy ((IntPtr)(&_event.field_3285.pm1378608784), array, 0, array.Length);
+-					Marshal.Copy ((IntPtr)(&_event.field_3285.pm2134917833.field_3491), array, 0, array.Length);
++					Marshal.Copy ((IntPtr)(&_event.field_3285.pm2134917833), array, 0, array.Length);
  					text = Encoding.UTF8.GetString (array);
  					value4.field_2086 = text [0];
  				}
-@@ -27545,7 +27566,7 @@ public sealed class JournalScreen : IScreen
+@@ -27545,7 +27526,7 @@ public sealed class JournalScreen : IScreen
  		bool flag3 = true;
  		if (flag && class_448.field_2042) {
  			int num2 = default(int);
@@ -334,19 +264,16 @@ index aa19cd0..d107a98 100644
  			if (num2 == 0) {
  				flag3 = false;
  			}
-@@ -28230,9 +28251,9 @@ public struct Maybe<T> : IEquatable<Maybe<T>>
+@@ -28232,7 +28213,7 @@ public struct Maybe<T> : IEquatable<Maybe<T>>
  
- 	private T Item;
- 
--	public Maybe (bool Present, T ItemIn)
-+	public Maybe (bool PresentIn, T ItemIn)
+ 	public Maybe (bool Present, T ItemIn)
  	{
 -		SetPresent (Present);
-+		Present = PresentIn;
++		this.Present = Present;
  		Item = ItemIn;
  	}
  
-@@ -30854,7 +30875,7 @@ public sealed class PartInputDraggingMode : class_195
+@@ -30854,7 +30835,7 @@ public sealed class PartInputDraggingMode : class_195
  			} else {
  				class_9.field_46.field_1999.method_395 (1f);
  			}
@@ -355,7 +282,7 @@ index aa19cd0..d107a98 100644
  		}
  		return class_438.field_1954;
  	}
-@@ -31612,7 +31633,8 @@ public sealed class Puzzle
+@@ -31612,7 +31593,8 @@ public sealed class Puzzle
  		try {
  			binaryWriter.Write (field_2694);
  			binaryWriter.Write (field_2692);
@@ -365,15 +292,16 @@ index aa19cd0..d107a98 100644
  			binaryWriter.Write ((ulong)Flags);
  			binaryWriter.Write (Inputs.Length);
  			for (int i = 0; i < Inputs.Length; i++) {
-@@ -38438,18 +38460,18 @@ public sealed class ScoreManager
+@@ -38438,31 +38420,19 @@ public sealed class ScoreManager
  		if (GameLogic.Instance.field_2405.field_2221.method_683 () || parameter_3576.field_2710) {
  			return;
  		}
--		p788092568.field_2947 = method_1347 (parameter_3576, parameter_3577);
-+		/*p788092568.field_2947 = method_1347 (parameter_3576, parameter_3577);
- 		if (field_2936.ContainsKey (p788092568.field_2947)) {
- 			SteamUserStats.UploadLeaderboardScore (new SteamLeaderboard_t (field_2936 [p788092568.field_2947].field_1006), (ELeaderboardUploadScoreMethod)1, parameter_3578, (int[])null, 0).method_2137<LeaderboardScoreUploaded_t> (delegate {
- 				p788092568.field_2948.method_1351 (p788092568.field_2947);
+-		p161850624.field_2947 = method_1347 (parameter_3576, parameter_3577);
++		// No Steam support
++		/*p161850624.field_2947 = method_1347 (parameter_3576, parameter_3577);
+ 		if (field_2936.ContainsKey (p161850624.field_2947)) {
+ 			SteamUserStats.UploadLeaderboardScore (new SteamLeaderboard_t (field_2936 [p161850624.field_2947].field_1006), (ELeaderboardUploadScoreMethod)1, parameter_3578, (int[])null, 0).method_2137<LeaderboardScoreUploaded_t> (delegate {
+ 				p161850624.field_2948.method_1351 (p161850624.field_2947);
  			});
 -		}
 +		}*/
@@ -383,13 +311,34 @@ index aa19cd0..d107a98 100644
  	{
 -		//IL_0003: Unknown result type (might be due to invalid IL or missing references)
 -		SteamUserStats.FindOrCreateLeaderboard (parameter_3579, (ELeaderboardSortMethod)1, (ELeaderboardDisplayType)1).method_2137<LeaderboardFindResult_t> (delegate(LeaderboardFindResult_t parameter_3580, bool parameter_3581) {
+-			//IL_0000: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0011: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0012: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0032: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0033: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0047: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0048: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0058: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0059: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0061: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0077: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0078: Unknown result type (might be due to invalid IL or missing references)
+-			//IL_0080: Unknown result type (might be due to invalid IL or missing references)
 +		// No Steam support
 +		/*SteamUserStats.FindOrCreateLeaderboard (parameter_3579, (ELeaderboardSortMethod)1, (ELeaderboardDisplayType)1).method_2137<LeaderboardFindResult_t> (delegate(LeaderboardFindResult_t parameter_3580, bool parameter_3581) {
- 			//IL_0000: Unknown result type (might be due to invalid IL or missing references)
- 			//IL_0011: Unknown result type (might be due to invalid IL or missing references)
- 			//IL_0012: Unknown result type (might be due to invalid IL or missing references)
-@@ -38478,7 +38500,7 @@ public sealed class ScoreManager
- 					//IL_0030: Unknown result type (might be due to invalid IL or missing references)
+ 			if (parameter_3580.m_bLeaderboardFound != 0 && !parameter_3581) {
+ 				string leaderboardName = SteamUserStats.GetLeaderboardName (parameter_3580.m_hSteamLeaderboard);
+ 				if (!field_2936.ContainsKey (leaderboardName)) {
+@@ -38470,36 +38440,19 @@ public sealed class ScoreManager
+ 				}
+ 				int num = SteamUserStats.GetLeaderboardEntryCount (parameter_3580.m_hSteamLeaderboard) / 100 + 1;
+ 				SteamUserStats.DownloadLeaderboardEntries (parameter_3580.m_hSteamLeaderboard, (ELeaderboardDataRequest)0, num, num).method_2137<LeaderboardScoresDownloaded_t> (delegate(LeaderboardScoresDownloaded_t parameter_3582, bool parameter_3583) {
+-					//IL_0003: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_000c: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_000d: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_001d: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_001e: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0030: Unknown result type (might be due to invalid IL or missing references)
  					if (!parameter_3583 && parameter_3582.m_cEntryCount == 1) {
  						LeaderboardEntry_t val2 = default(LeaderboardEntry_t);
 -						SteamUserStats.GetDownloadedLeaderboardEntry (parameter_3582.m_hSteamLeaderboardEntries, 0, ref val2, (int[])null, 0);
@@ -397,7 +346,20 @@ index aa19cd0..d107a98 100644
  						string leaderboardName3 = SteamUserStats.GetLeaderboardName (parameter_3582.m_hSteamLeaderboard);
  						field_2937 [leaderboardName3] = val2.m_nScore;
  					}
-@@ -38499,7 +38521,7 @@ public sealed class ScoreManager
+ 				});
+ 				SteamUserStats.DownloadLeaderboardEntries (parameter_3580.m_hSteamLeaderboard, (ELeaderboardDataRequest)2, 0, 0).method_2137<LeaderboardScoresDownloaded_t> (delegate(LeaderboardScoresDownloaded_t parameter_3584, bool parameter_3585) {
+-					//IL_0010: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0011: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0022: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0023: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_002d: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0033: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0034: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0039: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_0053: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_00f9: Unknown result type (might be due to invalid IL or missing references)
+-					//IL_00fa: Unknown result type (might be due to invalid IL or missing references)
+ 					if (!parameter_3585) {
  						List<LeaderboardEntry> list = new List<LeaderboardEntry> ();
  						LeaderboardEntry_t val = default(LeaderboardEntry_t);
  						for (int i = 0; i < parameter_3584.m_cEntryCount; i++) {
@@ -405,8 +367,8 @@ index aa19cd0..d107a98 100644
 +							SteamUserStats.GetDownloadedLeaderboardEntry (parameter_3584.m_hSteamLeaderboardEntries, i, out val, (int[])null, 0);
  							list.Add (new LeaderboardEntry (SteamFriends.GetFriendPersonaName (val.m_steamIDUser), val.m_nScore, val.m_steamIDUser == SteamUser.GetSteamID (), false));
  						}
- 						list = (from pm1672868741 in list.OrderBy (class_495.field_2293.method_1374)
-@@ -38516,7 +38538,7 @@ public sealed class ScoreManager
+ 						list = (from p1365472034 in list.OrderBy (class_495.field_2293.method_1374)
+@@ -38516,7 +38469,7 @@ public sealed class ScoreManager
  					}
  				});
  			}
@@ -415,7 +377,7 @@ index aa19cd0..d107a98 100644
  	}
  
  	private void method_1352 (LeaderboardFindResult_t parameter_3586, bool parameter_3587)
-@@ -38551,7 +38573,7 @@ public sealed class ScoreManager
+@@ -38551,7 +38504,7 @@ public sealed class ScoreManager
  			//IL_0030: Unknown result type (might be due to invalid IL or missing references)
  			if (!parameter_3583 && parameter_3582.m_cEntryCount == 1) {
  				LeaderboardEntry_t val2 = default(LeaderboardEntry_t);
@@ -424,7 +386,7 @@ index aa19cd0..d107a98 100644
  				string leaderboardName3 = SteamUserStats.GetLeaderboardName (parameter_3582.m_hSteamLeaderboard);
  				field_2937 [leaderboardName3] = val2.m_nScore;
  			}
-@@ -38572,7 +38594,7 @@ public sealed class ScoreManager
+@@ -38572,7 +38525,7 @@ public sealed class ScoreManager
  				List<LeaderboardEntry> list = new List<LeaderboardEntry> ();
  				LeaderboardEntry_t val = default(LeaderboardEntry_t);
  				for (int i = 0; i < parameter_3584.m_cEntryCount; i++) {
@@ -432,8 +394,8 @@ index aa19cd0..d107a98 100644
 +					SteamUserStats.GetDownloadedLeaderboardEntry (parameter_3584.m_hSteamLeaderboardEntries, i, out val, (int[])null, 0);
  					list.Add (new LeaderboardEntry (SteamFriends.GetFriendPersonaName (val.m_steamIDUser), val.m_nScore, val.m_steamIDUser == SteamUser.GetSteamID (), false));
  				}
- 				list = (from pm1672868741 in list.OrderBy (class_495.field_2293.method_1374)
-@@ -38600,7 +38622,7 @@ public sealed class ScoreManager
+ 				list = (from p1365472034 in list.OrderBy (class_495.field_2293.method_1374)
+@@ -38600,7 +38553,7 @@ public sealed class ScoreManager
  		//IL_0030: Unknown result type (might be due to invalid IL or missing references)
  		if (!parameter_3589 && parameter_3588.m_cEntryCount == 1) {
  			LeaderboardEntry_t val = default(LeaderboardEntry_t);
@@ -442,7 +404,7 @@ index aa19cd0..d107a98 100644
  			string leaderboardName = SteamUserStats.GetLeaderboardName (parameter_3588.m_hSteamLeaderboard);
  			field_2937 [leaderboardName] = val.m_nScore;
  		}
-@@ -38623,7 +38645,7 @@ public sealed class ScoreManager
+@@ -38623,7 +38576,7 @@ public sealed class ScoreManager
  			List<LeaderboardEntry> list = new List<LeaderboardEntry> ();
  			LeaderboardEntry_t val = default(LeaderboardEntry_t);
  			for (int i = 0; i < parameter_3590.m_cEntryCount; i++) {
@@ -450,28 +412,28 @@ index aa19cd0..d107a98 100644
 +				SteamUserStats.GetDownloadedLeaderboardEntry (parameter_3590.m_hSteamLeaderboardEntries, i, out val, (int[])null, 0);
  				list.Add (new LeaderboardEntry (SteamFriends.GetFriendPersonaName (val.m_steamIDUser), val.m_nScore, val.m_steamIDUser == SteamUser.GetSteamID (), false));
  			}
- 			list = (from pm1672868741 in list.OrderBy (class_495.field_2293.method_1374)
-@@ -43105,14 +43127,14 @@ public sealed class Sim : class_186
+ 			list = (from p1365472034 in list.OrderBy (class_495.field_2293.method_1374)
+@@ -43105,14 +43058,14 @@ public sealed class Sim : class_186
  
  	private bool method_1814 (Molecule parameter_4392, List<Part> parameter_4393)
  	{
--		class_718 p788092568 = new class_724 ();
-+		class_724 p788092568 = new class_724 ();
- 		p788092568.field_3565 = this;
- 		p788092568.field_3564 = parameter_4393;
+-		class_718 p161850624 = new class_724 ();
++		class_724 p161850624 = new class_724 ();
+ 		p161850624.field_3565 = this;
+ 		p161850624.field_3564 = parameter_4393;
  		return parameter_4392.GetAtoms ().Keys.Any (delegate(HexIndex parameter_4394) {
--			p788092568 = new class_718 ();
--			p788092568.field_3553 = p788092568;
--			p788092568.field_3552 = parameter_4394;
--			return p788092568.field_3564.Any ((Part parameter_4361) => p788092568.field_3553.field_3565.PartStates [parameter_4361].field_2655 == p788092568.field_3552);
-+			var h = new class_718 ();
-+			h.field_3553 = p788092568;
+-			p161850624 = new class_718 ();
+-			p161850624.field_3553 = p161850624;
+-			p161850624.field_3552 = parameter_4394;
+-			return p161850624.field_3564.Any ((Part parameter_4361) => p161850624.field_3553.field_3565.PartStates [parameter_4361].field_2655 == p161850624.field_3552);
++			class_718 h = new class_718 ();
++			h.field_3553 = p161850624;
 +			h.field_3552 = parameter_4394;
-+			return p788092568.field_3564.Any ((Part parameter_4361) => h.field_3553.field_3565.PartStates [parameter_4361].field_2655 == h.field_3552);
++			return p161850624.field_3564.Any ((Part parameter_4361) => h.field_3553.field_3565.PartStates [parameter_4361].field_2655 == h.field_3552);
  		});
  	}
  
-@@ -43876,7 +43898,7 @@ public sealed class SolitaireScreen : IScreen
+@@ -43876,7 +43829,7 @@ public sealed class SolitaireScreen : IScreen
  			}
  			field_3598.method_1871 (SolitareState.method_1901 (maybe.Get (), new global::class_150<float> (0f)));
  			class_9.field_46.field_2007.method_395 (1f);
@@ -480,7 +442,7 @@ index aa19cd0..d107a98 100644
  				field_3598.field_3585++;
  				SteamUserStats.SetStat ("SOLITAIRE", field_3598.field_3585);
  				SteamUserStats.StoreStats ();
-@@ -44161,7 +44183,7 @@ public sealed class SolitaireScreen : IScreen
+@@ -44161,7 +44114,7 @@ public sealed class SolitaireScreen : IScreen
  		field_3588 = parameter_4473;
  		field_3586 = new StoryPanel (new class_168 ("solitaire"), true);
  		if (class_448.field_2042) {
@@ -489,73 +451,47 @@ index aa19cd0..d107a98 100644
  		}
  	}
  
-@@ -46461,7 +46483,7 @@ public abstract class SolutionEditorBase
- 					}
- 				}
- 			}
--		} else if (parameter_4615.method_1141 () == PartTypes.VanBerloWheel) {
-+		} else if (parameter_4615.method_1141 () == PartTypes.VanBerloWheel || parameter_4615.method_1141() == PartTypes.RavariWheel) {
- 			method_1990 (parameter_4615.method_1147 (), PartTypes.HexArm.Arms, class_161);
- 			foreach (KeyValuePair<HexIndex, AtomType> item4 in parameter_4615.method_1141 ().FixedAtoms) {
- 				Vector2 vector3 = class_161.field_1167 + class_174.field_1182.method_336 (item4.Key).Rotated (class_161.field_1168);
-@@ -46906,7 +46928,7 @@ public abstract class SolutionEditorBase
- 			method_2002 (class_161, parameter_4618.method_1171 (), color);
- 		} else if (parameter_4618.method_1141 ().field_1063) {
- 			method_2002 (class_161, parameter_4618.method_1155 (), color);
--		} else if (parameter_4618.method_1141 () == PartTypes.VanBerloWheel) {
-+		} else if (parameter_4618.method_1141 () == PartTypes.VanBerloWheel || parameter_4618.method_1141() == PartTypes.RavariWheel) {
- 			method_1991 (parameter_4618.method_1147 (), PartTypes.HexArm.Arms, class_161, color);
- 			for (int i = 0; i < 6; i++) {
- 				float num = (float)(i * 60) * ((float)Math.PI / 180f);
-@@ -47620,7 +47642,7 @@ public sealed class SolutionEditorPartsPanel : class_388
+@@ -47620,7 +47573,7 @@ public sealed class SolutionEditorPartsPanel : class_388
  
  	public override void method_324 (float parameter_4710)
  	{
--		class_754 p788092568 = new class_755 ();
-+		class_755 p788092568 = new class_755 ();
- 		p788092568.field_3689 = this;
+-		class_754 p161850624 = new class_755 ();
++		class_755 p161850624 = new class_755 ();
+ 		p161850624.field_3689 = this;
  		if (class_418.method_616 (SDL.SdlKey.SDLK_4) && !field_1806.CurrentSolution ().GetPuzzle ().field_2703) {
  			field_3681 = !field_3681;
-@@ -47655,22 +47677,22 @@ public sealed class SolutionEditorPartsPanel : class_388
+@@ -47655,22 +47608,22 @@ public sealed class SolutionEditorPartsPanel : class_388
  			list2.Reverse ();
  		}
  		Action<List<PartTypeForToolbar>, PartType> obj = delegate(List<PartTypeForToolbar> parameter_4712, PartType parameter_4713) {
--			p788092568 = new class_754 ();
--			p788092568.field_3686 = parameter_4713;
-+			var h = new class_754 ();
+-			p161850624 = new class_754 ();
+-			p161850624.field_3686 = parameter_4713;
++			class_754 h = new class_754 ();
 +			h.field_3686 = parameter_4713;
- 			bool p35595137 = true;
--			bool pm2060034124 = field_1806.CurrentSolution ().GetPuzzle ().method_1236 (p788092568.field_3686);
--			Maybe<int> maybe = field_1806.CurrentSolution ().GetPuzzle ().field_2706.method_68 (p788092568.field_3686);
--			if (p788092568.field_3686.Unique) {
-+			bool pm2060034124 = field_1806.CurrentSolution ().GetPuzzle ().method_1236 (h.field_3686);
+ 			bool pm1503669924 = true;
+-			bool pm1266527200 = field_1806.CurrentSolution ().GetPuzzle ().method_1236 (p161850624.field_3686);
+-			Maybe<int> maybe = field_1806.CurrentSolution ().GetPuzzle ().field_2706.method_68 (p161850624.field_3686);
+-			if (p161850624.field_3686.Unique) {
++			bool pm1266527200 = field_1806.CurrentSolution ().GetPuzzle ().method_1236 (h.field_3686);
 +			Maybe<int> maybe = field_1806.CurrentSolution ().GetPuzzle ().field_2706.method_68 (h.field_3686);
 +			if (h.field_3686.Unique) {
  				maybe = 1;
  			}
  			if (maybe.IsPresent ()) {
--				int num4 = field_1806.CurrentSolution ().method_1918 ().Count ((Part parameter_4714) => parameter_4714.method_1141 () == p788092568.field_3686);
--				if (field_1806.method_2097 (p788092568.method_2030)) {
+-				int num4 = field_1806.CurrentSolution ().method_1918 ().Count ((Part parameter_4714) => parameter_4714.method_1141 () == p161850624.field_3686);
+-				if (field_1806.method_2097 (p161850624.method_2030)) {
 +				int num4 = field_1806.CurrentSolution ().method_1918 ().Count ((Part parameter_4714) => parameter_4714.method_1141 () == h.field_3686);
 +				if (field_1806.method_2097 (h.method_2030)) {
  					num4++;
  				}
- 				p35595137 = num4 < maybe.Get ();
+ 				pm1503669924 = num4 < maybe.Get ();
  			}
--			parameter_4712.Add (PartTypeForToolbar.Of (p788092568.field_3686, p35595137, pm2060034124));
-+			parameter_4712.Add (PartTypeForToolbar.Of (h.field_3686, p35595137, pm2060034124));
+-			parameter_4712.Add (PartTypeForToolbar.Of (p161850624.field_3686, pm1503669924, pm1266527200));
++			parameter_4712.Add (PartTypeForToolbar.Of (h.field_3686, pm1503669924, pm1266527200));
  		};
  		List<PartTypeForToolbar> list3 = new List<PartTypeForToolbar> ();
  		obj (list3, PartTypes.SingleArm);
-@@ -47680,6 +47702,7 @@ public sealed class SolutionEditorPartsPanel : class_388
- 		obj (list3, PartTypes.PistonArm);
- 		obj (list3, PartTypes.Track);
- 		obj (list3, PartTypes.VanBerloWheel);
-+		obj(list3, PartTypes.RavariWheel);
- 		list3.RemoveAll ((PartTypeForToolbar parameter_3343) => !parameter_3343.field_2679);
- 		List<PartTypeForToolbar> list4 = new List<PartTypeForToolbar> ();
- 		obj (list4, PartTypes.Bonding);
-@@ -50124,7 +50147,6 @@ public static class Steam
+@@ -50124,7 +50077,6 @@ public static class Steam
  		SteamAPI.RunCallbacks ();
  	}
  
@@ -563,7 +499,7 @@ index aa19cd0..d107a98 100644
  	public static IEnumerable<T> method_2136<T> () where T : struct
  	{
  		return new class_769<T> (-2);
-@@ -51039,7 +51061,6 @@ public sealed class Vignette
+@@ -51039,7 +50991,6 @@ public sealed class Vignette
  		class_780 field_3849 = new class_780 {
  			field_3847 = parameter_4914
  		};
@@ -571,12 +507,12 @@ index aa19cd0..d107a98 100644
  		field_3844 = parameter_4913;
  		field_3845 = new List<List<VignetteEvent>> ();
  		field_3846 = new List<class_182> ();
-@@ -51606,7 +51627,7 @@ public sealed class WorkshopManager
+@@ -51606,7 +51557,7 @@ public sealed class WorkshopManager
  		uint num2 = default(uint);
  		foreach (PublishedFileId_t val in array3) {
  			EItemState val2 = (EItemState)SteamUGC.GetItemState (val);
 -			if ((val2 & 4) != 4 || !SteamUGC.GetItemInstallInfo (val, ref num, ref path, 4096u, ref num2)) {
-+			if (!(val2.HasFlag(EItemState.k_EItemStateInstalled)) || !SteamUGC.GetItemInstallInfo (val, out num, out path, 4096u, out num2)) {
++			if ((!val2.HasFlag(EItemState.k_EItemStateInstalled)) || !SteamUGC.GetItemInstallInfo (val, out num, out path, 4096u, out num2)) {
  				continue;
  			}
  			foreach (string item in Directory.EnumerateFiles (path)) {
